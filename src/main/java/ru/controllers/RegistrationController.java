@@ -2,6 +2,7 @@ package ru.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +21,16 @@ public class RegistrationController {
     }
 
     @PostMapping("register")
-    String verification(@RequestParam("name") String name, @RequestParam("password") String password){
+    String verification(
+            @RequestParam("name") String name,
+            @RequestParam("password") String password,
+            Model model
+            ){
         System.out.println(name + password);
         if(userValidationService.isUserValid(name, password)){
             return "forecast";
         }
-
+        model.addAttribute("errorMessage", "Invalid user");
 
 
 //        if(){
@@ -33,6 +38,6 @@ public class RegistrationController {
 //        } else {
 //
 //        }
-        return "forecast";
+        return "registration/register";
     }
 }
