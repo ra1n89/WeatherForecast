@@ -1,6 +1,7 @@
 package ru.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -28,7 +29,13 @@ public class DataSourceConfig {
     public LocalSessionFactoryBean localSessionFactoryBean(){
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setDataSource(hikariDataSource);
+        //TODO:packet to scan entity??
         return localSessionFactoryBean;
+    }
+
+    @Bean
+    public SessionFactory sessionFactory(LocalSessionFactoryBean localSessionFactoryBean){
+        return localSessionFactoryBean.getObject();
     }
 
 }
