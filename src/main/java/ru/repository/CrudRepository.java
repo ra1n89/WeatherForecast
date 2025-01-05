@@ -10,5 +10,5 @@ interface CrudRepository<K> {
 
     List<K> getAll();
 
-    K getOne();
+    K getOne(K k);
 }
