@@ -1,7 +1,9 @@
 package ru.repository;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.repository.entity.User;
@@ -20,6 +22,8 @@ public class UserRepository implements CrudRepository<User> {
         try(Session session = sessionFactory.getCurrentSession()){
             session.beginTransaction();
             session.persist(user);
+        } catch (HibernateException e) {
+            //TODO: error handling
         }
         return user;
     }
@@ -35,8 +39,17 @@ public class UserRepository implements CrudRepository<User> {
     }
 
     @Override
-    public User getOne() {
-        String GetUserHql = "FROM User";
-        return null;
+    public User getOne(User user) {
+        String getOneUserHql = "FROM User WHERE username=:username";
+        User singleResult;
+        try(Session session = sessionFactory.getCurrentSession()){
+            session.beginTransaction();
+
+            Query query = session.createQuery(getOneUserHql);
+            query.setParameter("username", user.getUsername());
+            singleResult = (User)query.uniqueResult();
+            session.getTransaction().commit();
+        }
+        return singleResult;
     }
 }
