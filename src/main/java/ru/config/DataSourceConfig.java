@@ -4,8 +4,12 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import ru.repository.entity.Locations;
+import ru.repository.entity.User;
+import ru.repository.entity.UserSession;
 
 import javax.sql.DataSource;
 
@@ -29,6 +33,8 @@ public class DataSourceConfig {
     public LocalSessionFactoryBean localSessionFactoryBean(){
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setDataSource(hikariDataSource);
+        localSessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
+        localSessionFactoryBean.setAnnotatedClasses(User.class, UserSession.class, Locations.class);
         //TODO:packet to scan entity??
         return localSessionFactoryBean;
     }
