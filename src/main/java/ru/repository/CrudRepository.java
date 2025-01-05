@@ -11,4 +11,6 @@ interface CrudRepository<K> {
     List<K> getAll();
 
     K getOne(K k);
+
+    K getById(String id);
 }

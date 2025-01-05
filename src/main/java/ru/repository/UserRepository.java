@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.repository.entity.User;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class UserRepository implements CrudRepository<User> {
         try(Session session = sessionFactory.getCurrentSession()){
             session.beginTransaction();
             session.persist(user);
+            session.getTransaction().commit();
         } catch (HibernateException e) {
             //TODO: error handling
         }
@@ -38,6 +40,7 @@ public class UserRepository implements CrudRepository<User> {
         return null;
     }
 
+    @Transactional
     @Override
     public User getOne(User user) {
         String getOneUserHql = "FROM User WHERE username=:username";
@@ -51,5 +54,11 @@ public class UserRepository implements CrudRepository<User> {
             session.getTransaction().commit();
         }
         return singleResult;
+    }
+
+    @Override
+    public User getById(String id) {
+
+        return null;
     }
 }
