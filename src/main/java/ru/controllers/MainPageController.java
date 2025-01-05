@@ -13,6 +13,7 @@ public class MainPageController {
 
     @GetMapping("/")
     String mainPage(){
+        //TODO: перенести в сервлетЛистенер
         flyway.migrate();
         return "index";
     }

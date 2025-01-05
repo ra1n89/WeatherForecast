@@ -4,23 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.service.UserValidationService;
 
 @Controller
-public class RegistrationController {
+public class LoginController {
 
     @Autowired
     UserValidationService userValidationService;
 
-    @GetMapping("register")
+    @GetMapping("login")
     String registration(){
-        return "registration/register";
+        return "login/login";
     }
 
-    @PostMapping("register")
+    @PostMapping("login")
     String verification(
             @RequestParam("name") String name,
             @RequestParam("password") String password,
@@ -38,6 +37,6 @@ public class RegistrationController {
 //        } else {
 //
 //        }
-        return "registration/register";
+        return "login/login";
     }
 }
