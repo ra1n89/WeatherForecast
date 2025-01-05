@@ -6,11 +6,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import ru.interceptor.LoggingInterceptor;
+import ru.repository.SessionRepository;
 
 @Configuration
 @ComponentScan("ru")
@@ -19,9 +22,14 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
+
+    private final SessionRepository sessionRepository;
+
+
     @Autowired
-    public WebConfig(ApplicationContext applicationContext) {
+    public WebConfig(ApplicationContext applicationContext, SessionRepository sessionRepository) {
         this.applicationContext = applicationContext;
+        this.sessionRepository = sessionRepository;
     }
 
     @Bean
@@ -46,5 +54,15 @@ public class WebConfig implements WebMvcConfigurer {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoggingInterceptor(sessionRepository))
+                .addPathPatterns("/**") // Применяем ко всем URL
+                .excludePathPatterns("/")
+                .excludePathPatterns("/login")
+                .excludePathPatterns("/register");// Исключаем определенные пути
+
     }
 }
