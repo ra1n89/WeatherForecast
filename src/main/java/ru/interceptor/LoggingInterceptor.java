@@ -9,6 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import ru.repository.SessionRepository;
 import ru.repository.entity.UserSession;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 
@@ -29,8 +30,15 @@ public class LoggingInterceptor implements HandlerInterceptor {
         } else {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("GUID")){
+                    UserSession userSession = sessionRepository.getById(cookie.getValue());
+                    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-                    return sessionRepository.getById(cookie.getValue()) != null;
+                    if(userSession == null || userSession.getExpiresAt().before(currentTime)){
+                        //TODO: проверку времени куки вынести в отдельный БД, и там еще удалять эту сессию из БД
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are not authorized");
+                        return false;
+                    }
+                    return true;
                 };
             }
         }
