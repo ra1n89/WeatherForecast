@@ -10,7 +10,7 @@ public class UserValidationService {
     @Autowired
     UserRepositoryService userRepositoryService;
 
-    public boolean isUserValid(String username, String password) {
+    public boolean isUserExist(String username, String password) {
         User user = userRepositoryService.getOne(new User(username, password));
         if (user == null) {
             return false;
@@ -26,5 +26,10 @@ public class UserValidationService {
             return true;
         }
         return false;
+    }
+
+    public boolean isUserAuthorized(String password) {
+        // Implement password strength validation logic here
+        return true;
     }
 }

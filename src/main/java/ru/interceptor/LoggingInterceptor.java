@@ -3,7 +3,6 @@ package ru.interceptor;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.flywaydb.core.Flyway;
 import org.springframework.web.servlet.HandlerInterceptor;
 import ru.repository.SessionRepository;
 import ru.repository.entity.UserSession;
@@ -13,17 +12,12 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
     private final SessionRepository sessionRepository;
 
-    private final Flyway flyway;
-
-    public LoggingInterceptor(SessionRepository sessionRepository, Flyway flyway) {
+    public LoggingInterceptor(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
-        this.flyway = flyway;
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        flyway.migrate();
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             System.out.println("No cookies found.");

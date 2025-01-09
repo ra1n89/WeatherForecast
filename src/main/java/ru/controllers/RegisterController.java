@@ -53,7 +53,7 @@ public class RegisterController {
         }
 
         //check if the user exists in DB
-        if (userValidationService.isUserValid(name, password)) {
+        if (userValidationService.isUserExist(name, password)) {
             model.addAttribute("errorMessage", "This user already exists");
             return "register/register";
         }
@@ -68,6 +68,6 @@ public class RegisterController {
         cookie.setMaxAge(1 * 60 * 60);
         response.addCookie(cookie);
 
-        return "weather";
+        return "index";
     }
 }

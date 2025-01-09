@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import ru.interceptor.FlywayInterceptor;
 import ru.interceptor.LoggingInterceptor;
 import ru.repository.SessionRepository;
 
@@ -60,10 +61,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoggingInterceptor(sessionRepository, flyway))
-                .addPathPatterns("/**") // Применяем ко всем URL
+        registry.addInterceptor(new LoggingInterceptor(sessionRepository))
+                .addPathPatterns("/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
-                .excludePathPatterns("/register");// Исключаем определенные пути
+                .excludePathPatterns("/register");
+
+        registry.addInterceptor(new FlywayInterceptor(flyway))
+                .addPathPatterns("/**");
     }
 }
