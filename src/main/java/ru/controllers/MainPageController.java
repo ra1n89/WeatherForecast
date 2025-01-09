@@ -22,7 +22,6 @@ public class MainPageController {
     Flyway flyway;
 
 
-
     @GetMapping("/")
     String mainPage() {
         //TODO: перенести в сервлетЛистенер
@@ -38,7 +37,7 @@ public class MainPageController {
         HttpClient httpClient = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder(
                 URI.create("https://api.openweathermap.org/data/2.5/weather?q=" +
-                searchLocationFilter + "&appid=9aa0aba07c5c897aaf5cf0454766edb7")).GET().build();
+                        searchLocationFilter + "&appid=9aa0aba07c5c897aaf5cf0454766edb7")).GET().build();
 
         HttpResponse<String> stringHttpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         WeatherFoundByCity weatherFoundByCity = JsonUtil.stringToJson(stringHttpResponse.body());

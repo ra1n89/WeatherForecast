@@ -31,7 +31,7 @@ public class RegisterController {
     SessionRepository sessionRepository;
 
     @GetMapping("register")
-    String showRegistrationForm(){
+    String showRegistrationForm() {
         return "register/register";
     }
 
@@ -44,29 +44,29 @@ public class RegisterController {
             Model model,
             HttpServletResponse response,
             HttpServletRequest request
-    ){
+    ) {
 
         //check if the password typed in registration form equal each other
-        if(!userValidationService.isPasswordEqual(password, repeatPassword)){
+        if (!userValidationService.isPasswordEqual(password, repeatPassword)) {
             model.addAttribute("errorMessage", "Passwords are not equal");
             return "register/register";
         }
 
         //check if the user exists in DB
-        if(userValidationService.isUserValid(name, password)){
+        if (userValidationService.isUserValid(name, password)) {
             model.addAttribute("errorMessage", "This user already exists");
             return "register/register";
         }
 
         User user = new User(name, password);
         //one hour session time
-        long expiresAt =  System.currentTimeMillis() + 1 * 60 * 60 * 1000;
+        long expiresAt = System.currentTimeMillis() + 1 * 60 * 60 * 1000;
         UserSession userSession = new UserSession(user, new Timestamp(expiresAt));
         user.setSession(userSession); // Устанавливаем связь
         userSession.setUser(user);
         userRepositoryService.save(user);
         Cookie cookie = new Cookie("GUID", userSession.getId().toString());
-        cookie.setMaxAge(1*60*60);
+        cookie.setMaxAge(1 * 60 * 60);
         response.addCookie(cookie);
 
 

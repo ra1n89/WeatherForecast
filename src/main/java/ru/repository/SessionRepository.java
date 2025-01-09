@@ -19,7 +19,7 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
 
     @Override
     public UserSession save(UserSession userSession) {
-        try (Session session = sessionFactory.getCurrentSession()){
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             session.persist(userSession);
             session.getTransaction().commit();
@@ -46,7 +46,7 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
     public UserSession getById(String id) {
         String getByIdHql = "FROM UserSession WHERE id=:id";
         UserSession singleResult;
-        try(Session session = sessionFactory.getCurrentSession()){
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
             Query query = session.createQuery(getByIdHql);
@@ -58,16 +58,15 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
     }
 
 
-
     @Override
     public UserSession getSessionByUser(User user) {
         String getSessionByUserHql = "FROM UserSession WHERE user =:user";
         UserSession userSession;
-        try(Session session = sessionFactory.getCurrentSession()){
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             Query query = session.createQuery(getSessionByUserHql);
             query.setParameter("user", user);
-            userSession = (UserSession)query.uniqueResult();
+            userSession = (UserSession) query.uniqueResult();
             session.getTransaction().commit();
 
         }

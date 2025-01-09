@@ -20,7 +20,7 @@ public class UserRepository implements CrudRepository<User> {
     @Override
     public User save(User user) {
 
-        try(Session session = sessionFactory.getCurrentSession()){
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             session.persist(user);
             session.getTransaction().commit();
@@ -45,12 +45,12 @@ public class UserRepository implements CrudRepository<User> {
     public User getOne(User user) {
         String getOneUserHql = "FROM User WHERE username=:username";
         User singleResult;
-        try(Session session = sessionFactory.getCurrentSession()){
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
             Query query = session.createQuery(getOneUserHql);
             query.setParameter("username", user.getUsername());
-            singleResult = (User)query.uniqueResult();
+            singleResult = (User) query.uniqueResult();
             session.getTransaction().commit();
         }
         return singleResult;

@@ -5,7 +5,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import ru.repository.entity.Locations;
 import ru.repository.entity.User;
@@ -19,7 +18,7 @@ public class DataSourceConfig {
     HikariDataSource hikariDataSource;
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         hikariDataSource = new HikariDataSource();
 
         hikariDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -30,7 +29,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean localSessionFactoryBean(){
+    public LocalSessionFactoryBean localSessionFactoryBean() {
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setDataSource(hikariDataSource);
         localSessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
@@ -40,7 +39,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public SessionFactory sessionFactory(LocalSessionFactoryBean localSessionFactoryBean){
+    public SessionFactory sessionFactory(LocalSessionFactoryBean localSessionFactoryBean) {
         return localSessionFactoryBean.getObject();
     }
 

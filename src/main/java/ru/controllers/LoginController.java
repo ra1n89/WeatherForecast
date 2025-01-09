@@ -1,6 +1,5 @@
 package ru.controllers;
 
-import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,7 @@ public class LoginController {
 
 
     @GetMapping("login")
-    String registration(){
+    String registration() {
         return "login/login";
     }
 
@@ -36,12 +35,12 @@ public class LoginController {
             @RequestParam("name") String name,
             @RequestParam("password") String password,
             Model model
-            ){
+    ) {
         System.out.println(name + password);
         User user = userRepositoryService.getOne(new User(name, password));
         UserSession userSession = sessionRepository.getSessionByUser(user);
 
-        if(user != null){
+        if (user != null) {
             //TODO: сессии то истекают, нужно проверять время истечение сессии и потом создавать новую сессию при авторизации1
 
             /*Cookie cookie = new Cookie("GUID", userSession.getId().toString());
