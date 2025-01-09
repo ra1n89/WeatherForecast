@@ -1,5 +1,4 @@
 package ru.repository;
-
 import java.util.List;
 
 interface CrudRepository<K> {

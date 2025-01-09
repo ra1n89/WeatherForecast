@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.model.WeatherFoundByCity;
 import ru.util.JsonUtil;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -18,14 +17,11 @@ import java.net.http.HttpResponse;
 @Controller
 public class MainPageController {
 
-    @Autowired
-    Flyway flyway;
-
 
     @GetMapping("/")
     String mainPage() {
         //TODO: перенести в сервлетЛистенер
-        flyway.migrate();
+
         return "index";
     }
 

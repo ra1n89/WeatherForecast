@@ -24,7 +24,6 @@ public class LoginController {
     @Autowired
     SessionRepository sessionRepository;
 
-
     @GetMapping("login")
     String registration() {
         return "login/login";
@@ -41,20 +40,11 @@ public class LoginController {
         UserSession userSession = sessionRepository.getSessionByUser(user);
 
         if (user != null) {
-            //TODO: сессии то истекают, нужно проверять время истечение сессии и потом создавать новую сессию при авторизации1
-
-            /*Cookie cookie = new Cookie("GUID", userSession.getId().toString());
-            response.addCookie(cookie);*/
+            // TODO: сессии то истекают, нужно проверять время истечение сессии и потом создавать новую сессию при авторизации1
             return "forecast";
         }
         model.addAttribute("errorMessage", "Invalid user");
 
-
-//        if(){
-//            //TODO: создать в базе данных
-//        } else {
-//
-//        }
         return "login/login";
     }
 }

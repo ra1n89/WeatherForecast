@@ -47,7 +47,6 @@ public class UserRepository implements CrudRepository<User> {
         User singleResult;
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-
             Query query = session.createQuery(getOneUserHql);
             query.setParameter("username", user.getUsername());
             singleResult = (User) query.uniqueResult();
@@ -58,7 +57,6 @@ public class UserRepository implements CrudRepository<User> {
 
     @Override
     public User getById(String id) {
-
         return null;
     }
 }

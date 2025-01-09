@@ -1,5 +1,6 @@
 package ru.config;
 
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +23,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-
     private final SessionRepository sessionRepository;
 
+    private final Flyway flyway;
 
     @Autowired
-    public WebConfig(ApplicationContext applicationContext, SessionRepository sessionRepository) {
+    public WebConfig(ApplicationContext applicationContext, SessionRepository sessionRepository, Flyway flyway) {
         this.applicationContext = applicationContext;
         this.sessionRepository = sessionRepository;
+        this.flyway = flyway;
     }
 
     @Bean
@@ -58,11 +60,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoggingInterceptor(sessionRepository))
+        registry.addInterceptor(new LoggingInterceptor(sessionRepository, flyway))
                 .addPathPatterns("/**") // Применяем ко всем URL
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/register");// Исключаем определенные пути
-
     }
 }

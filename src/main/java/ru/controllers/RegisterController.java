@@ -59,16 +59,14 @@ public class RegisterController {
         }
 
         User user = new User(name, password);
-        //one hour session time
         long expiresAt = System.currentTimeMillis() + 1 * 60 * 60 * 1000;
         UserSession userSession = new UserSession(user, new Timestamp(expiresAt));
-        user.setSession(userSession); // Устанавливаем связь
+        user.setSession(userSession);
         userSession.setUser(user);
         userRepositoryService.save(user);
         Cookie cookie = new Cookie("GUID", userSession.getId().toString());
         cookie.setMaxAge(1 * 60 * 60);
         response.addCookie(cookie);
-
 
         return "weather";
     }

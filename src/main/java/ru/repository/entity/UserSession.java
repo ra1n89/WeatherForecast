@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
@@ -20,13 +19,11 @@ import java.util.UUID;
 @Table(name = "sessions")
 public class UserSession {
 
-
     @Id
     //@UuidGenerator
     @Column(name = "id", columnDefinition = "VARCHAR(36)")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
-
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -45,7 +42,6 @@ public class UserSession {
             user.setSession(this); // Устанавливаем обратную связь
         }
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -35,6 +35,4 @@ public class User {
         this.userSession = userSession;
         userSession.setUser(this); // Устанавливаем обратную связь
     }
-
-
 }

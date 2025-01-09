@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.repository.entity.User;
 import ru.repository.entity.UserSession;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +47,6 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
         UserSession singleResult;
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-
             Query query = session.createQuery(getByIdHql);
             query.setParameter("id", UUID.fromString(id));
             singleResult = (UserSession) query.uniqueResult();
@@ -56,7 +54,6 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
         }
         return singleResult;
     }
-
 
     @Override
     public UserSession getSessionByUser(User user) {
@@ -68,7 +65,6 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
             query.setParameter("user", user);
             userSession = (UserSession) query.uniqueResult();
             session.getTransaction().commit();
-
         }
         return userSession;
     }

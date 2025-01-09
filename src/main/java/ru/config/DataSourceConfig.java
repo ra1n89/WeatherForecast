@@ -6,11 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import javax.sql.DataSource;
 import ru.repository.entity.Locations;
 import ru.repository.entity.User;
 import ru.repository.entity.UserSession;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
@@ -20,7 +19,6 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         hikariDataSource = new HikariDataSource();
-
         hikariDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         hikariDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/weather");
         hikariDataSource.setUsername("root");
@@ -34,7 +32,7 @@ public class DataSourceConfig {
         localSessionFactoryBean.setDataSource(hikariDataSource);
         localSessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
         localSessionFactoryBean.setAnnotatedClasses(User.class, UserSession.class, Locations.class);
-        //TODO:packet to scan entity??
+        // TODO:packet to scan entity??
         return localSessionFactoryBean;
     }
 
@@ -42,5 +40,4 @@ public class DataSourceConfig {
     public SessionFactory sessionFactory(LocalSessionFactoryBean localSessionFactoryBean) {
         return localSessionFactoryBean.getObject();
     }
-
 }
