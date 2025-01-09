@@ -16,6 +16,7 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import ru.interceptor.FlywayInterceptor;
 import ru.interceptor.LoggingInterceptor;
 import ru.repository.SessionRepository;
+import ru.service.UserValidationService;
 
 @Configuration
 @ComponentScan("ru")
@@ -26,13 +27,16 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final SessionRepository sessionRepository;
 
+    private final UserValidationService userValidationService;
+
     private final Flyway flyway;
 
     @Autowired
-    public WebConfig(ApplicationContext applicationContext, SessionRepository sessionRepository, Flyway flyway) {
+    public WebConfig(ApplicationContext applicationContext, SessionRepository sessionRepository, Flyway flyway, UserValidationService userValidationService) {
         this.applicationContext = applicationContext;
         this.sessionRepository = sessionRepository;
         this.flyway = flyway;
+        this.userValidationService = userValidationService;
     }
 
     @Bean
@@ -61,7 +65,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoggingInterceptor(sessionRepository))
+        registry.addInterceptor(new LoggingInterceptor(sessionRepository, userValidationService))
                 .addPathPatterns("/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
