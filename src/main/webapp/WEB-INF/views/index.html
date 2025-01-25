@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <H1>MAIN</H1>
+<div th:if = "${isAuthorized}">
+    <form th:action="@{/logout}" method="get">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+<div th:unless="${isAuthorized}">
+    <form th:action="@{/login}" method="get">
+        <button type="submit">Login</button>
+    </form>
+    <form th:action="@{/register}" method="get">
+        <button type="submit">Register</button>
+    </form>
+</div>
 <form action="search-results" method="get">
     <label for="search_filter">Find the location</label><input type="text" name="search_filter" id="search_filter"><input
         type="submit" value="Find">

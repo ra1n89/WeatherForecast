@@ -12,12 +12,12 @@ import ru.repository.entity.User;
 import java.util.List;
 
 @Repository
-public class UserRepository implements CrudRepository<User> {
+public class UserRepository  {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    @Override
+   
     public User save(User user) {
 
         try (Session session = sessionFactory.getCurrentSession()) {
@@ -30,18 +30,18 @@ public class UserRepository implements CrudRepository<User> {
         return user;
     }
 
-    @Override
+    
     public User update(User user) {
         return null;
     }
 
-    @Override
+    
     public List<User> getAll() {
         return null;
     }
 
     @Transactional
-    @Override
+    
     public User getOne(User user) {
         String getOneUserHql = "FROM User WHERE username=:username";
         User singleResult;
@@ -54,8 +54,7 @@ public class UserRepository implements CrudRepository<User> {
         }
         return singleResult;
     }
-
-    @Override
+    
     public User getById(String id) {
         return null;
     }

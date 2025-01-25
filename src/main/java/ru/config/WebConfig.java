@@ -66,10 +66,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggingInterceptor(sessionRepository, userValidationService))
-                .addPathPatterns("/**")
-                .excludePathPatterns("/")
-                .excludePathPatterns("/login")
-                .excludePathPatterns("/register");
+                .addPathPatterns("/**");
 
         registry.addInterceptor(new FlywayInterceptor(flyway))
                 .addPathPatterns("/**");

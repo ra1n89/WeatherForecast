@@ -34,14 +34,7 @@ public class UserSession {
     @Column(name = "expires_at")
     private Timestamp expiresAt;
 
-    public UserSession(User user, Timestamp expiresAt) {
-        id = UUID.randomUUID();
-        this.user = user;
-        this.expiresAt = expiresAt;
-        if (user != null) {
-            user.setSession(this); // Устанавливаем обратную связь
-        }
-    }
+
 
     @Override
     public boolean equals(Object o) {

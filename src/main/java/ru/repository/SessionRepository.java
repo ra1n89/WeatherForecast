@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class SessionRepository implements CrudRepository<UserSession>, SpecialMethodForSessionRepository {
+public class SessionRepository {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    @Override
+
     public UserSession save(UserSession userSession) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
@@ -26,22 +26,22 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
         return userSession;
     }
 
-    @Override
+
     public UserSession update(UserSession userSession) {
         return null;
     }
 
-    @Override
+
     public List<UserSession> getAll() {
         return null;
     }
 
-    @Override
+
     public UserSession getOne(UserSession userSession) {
         return null;
     }
 
-    @Override
+
     public UserSession getById(String id) {
         String getByIdHql = "FROM UserSession WHERE id=:id";
         UserSession singleResult;
@@ -55,7 +55,7 @@ public class SessionRepository implements CrudRepository<UserSession>, SpecialMe
         return singleResult;
     }
 
-    @Override
+
     public UserSession getSessionByUser(User user) {
         String getSessionByUserHql = "FROM UserSession WHERE user =:user";
         UserSession userSession;

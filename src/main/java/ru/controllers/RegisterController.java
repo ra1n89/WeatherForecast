@@ -17,6 +17,7 @@ import ru.service.UserRepositoryService;
 import ru.service.UserValidationService;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Controller
 public class RegisterController {
@@ -60,14 +61,15 @@ public class RegisterController {
 
         User user = new User(name, password);
         long expiresAt = System.currentTimeMillis() + 1 * 60 * 60 * 1000;
-        UserSession userSession = new UserSession(user, new Timestamp(expiresAt));
+        UUID id = UUID.randomUUID();
+        UserSession userSession = new UserSession(id, user, new Timestamp(expiresAt));
         user.setSession(userSession);
         userSession.setUser(user);
         userRepositoryService.save(user);
         Cookie cookie = new Cookie("GUID", userSession.getId().toString());
         cookie.setMaxAge(1 * 60 * 60);
         response.addCookie(cookie);
-
+        request.setAttribute("isAuthorized", true);
         return "index";
     }
 }
