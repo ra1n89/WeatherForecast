@@ -6,6 +6,24 @@
 </head>
 <body>
 <h1>Weather Information</h1>
+<form th:each="location : ${locations}" th:action="@{/}" method="post">
+    <!-- Скрытые поля для передачи данных -->
+    <input type="hidden" name="name" th:value="${location.name}">
+    <input type="hidden" name="country" th:value="${location.shortCountry}">
+    <input type="hidden" name="state" th:value="${location.state != null} ? ${location.state} : 'N/A'">
+    <input type="hidden" name="lon" th:value="${location.lon}">
+    <input type="hidden" name="lat" th:value="${location.lat}">
+
+    <!-- Отображение данных -->
+    <p>Name: <span th:text="${location.name}"></span></p>
+    <p>Country: <span th:text="${location.shortCountry}"></span></p>
+    <p>State: <span th:text="${location.state != null} ? ${location.state} : 'N/A'"></span></p>
+    <p>Lon: <span th:text="${location.lon}"></span></p>
+    <p>Lat: <span th:text="${location.lat}"></span></p>
+
+    <!-- Кнопка для отправки формы -->
+    <input type="submit" value="Add">
+</form>
 
 
 <p>Location: <span th:text="${searchResults}"></span></p>

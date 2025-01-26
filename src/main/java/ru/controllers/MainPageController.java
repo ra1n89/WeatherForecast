@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.model.LocationsFoundByName;
 import ru.model.WeatherFoundByCity;
 import ru.service.UserValidationService;
 import ru.util.JsonUtil;
@@ -17,6 +18,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 @Controller
 public class MainPageController {
@@ -30,8 +32,6 @@ public class MainPageController {
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
-
-
         } else {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("GUID") && userValidationService.isUserAuthorized(cookie.getValue())) {
@@ -39,9 +39,6 @@ public class MainPageController {
                 }
             }
         }
-
-
-
         return "index";
     }
 
@@ -58,10 +55,10 @@ public class MainPageController {
                 .build();
 
         HttpResponse<String> stringHttpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        WeatherFoundByCity weatherFoundByCity = JsonUtil.stringToJson(stringHttpResponse.body());
-        System.out.println(weatherFoundByCity);
+        List<LocationsFoundByName>locationsFoundByNameList = JsonUtil.locationsStringToJson(stringHttpResponse.body());
+        System.out.println(locationsFoundByNameList);
 
-        model.addAttribute("searchResults", stringHttpResponse.body());
+        model.addAttribute("locations", locationsFoundByNameList);
 
         return "search-results";
     }
